@@ -13,3 +13,7 @@ BundleArtifacts/
 *.sqlite
 .env
 client_secret*.json
+create-repo.ps1
+create-repo.sh
+push-commits.bat
+push-commits.ps1
