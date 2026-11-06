@@ -1,18 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { randomUUID } from "node:crypto";
-import { configured, db, rateLimit } from "@/lib/db";
-import {
-  signupSchema,
-  hash,
-  newToken,
-  ipKey,
-  allowedOrigin,
-  unsubscribeToken,
-  consentVersion,
-  success,
-} from "@/lib/release";
+import { configured, releaseStore } from "@/lib/db";
+import { signupSchema, allowedOrigin, success } from "@/lib/release";
 import { sendEmail } from "@/lib/email";
 import { readJson, RequestBodyError } from "@/lib/request";
+import { createReleaseService } from "@/lib/release-service";
 export const runtime = "nodejs";
 export async function POST(request: NextRequest) {
   const site = process.env.SITE_URL || "https://glance-win.vercel.app";
@@ -52,36 +43,23 @@ export async function POST(request: NextRequest) {
       { status: 503 },
     );
   try {
-    const sql = db();
-    const secret = process.env.RELEASE_TOKEN_SECRET!; // Vercel overwrites x-vercel-forwarded-for; never trust client x-forwarded-for for abuse limits.
+    const service = createReleaseService(
+      releaseStore(),
+      sendEmail,
+      site,
+      process.env.RELEASE_TOKEN_SECRET!,
+    );
+    // Only the platform-controlled Vercel IP header is trusted.
     const ip = process.env.VERCEL
       ? request.headers.get("x-vercel-forwarded-for")?.split(",")[0]?.trim() ||
         "unknown"
       : "local";
-    if (
-      !(await rateLimit(`ip:${ipKey(ip, secret)}`)) ||
-      !(await rateLimit(`email:${ipKey(input.data.email, secret)}`, 3))
-    )
+    const result = await service.signup(input.data.email, ip);
+    if (result.kind === "limited")
       return NextResponse.json(
         { error: "Too many requests. Please try again in an hour." },
         { status: 429, headers: { "Retry-After": "3600" } },
       );
-    await sql`DELETE FROM release_rate_limits WHERE window_start < now() - interval '1 day'`;
-    const id = randomUUID();
-    const token = newToken();
-    const unsub = unsubscribeToken(id, secret);
-    const rows =
-      await sql`INSERT INTO release_subscribers (id,email,confirmation_hash,confirmation_expires,unsubscribe_hash,consent_version) VALUES (${id},${input.data.email},${hash(token)},now()+interval '24 hours',${hash(unsub)},${consentVersion}) ON CONFLICT (email) DO UPDATE SET confirmation_hash=EXCLUDED.confirmation_hash, confirmation_expires=EXCLUDED.confirmation_expires, requested_at=now(), consent_version=EXCLUDED.consent_version WHERE release_subscribers.status='pending' AND release_subscribers.requested_at < now()-interval '5 minutes' RETURNING id`;
-    if (rows.length) {
-      const rowId = String(rows[0].id);
-      await sendEmail(
-        input.data.email,
-        "confirm",
-        `${site}/confirm?token=${token}`,
-        `${site}/unsubscribe?token=${unsubscribeToken(rowId, secret)}`,
-        token,
-      );
-    }
     return NextResponse.json(success);
   } catch {
     return NextResponse.json(

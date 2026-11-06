@@ -1,11 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { configured, db } from "@/lib/db";
-import {
-  tokenSchema,
-  hash,
-  allowedOrigin,
-  unsubscribeToken,
-} from "@/lib/release";
+import { configured, releaseStore } from "@/lib/db";
+import { tokenSchema, allowedOrigin } from "@/lib/release";
+import { createReleaseService } from "@/lib/release-service";
 import { sendEmail } from "@/lib/email";
 import { readJson, RequestBodyError } from "@/lib/request";
 import { z } from "zod";
@@ -40,14 +36,14 @@ export async function POST(request: NextRequest) {
       { status: 400 },
     );
   try {
-    const sql = db();
-    const rows =
-      await sql`UPDATE release_subscribers SET status='subscribed', confirmed_at=now() WHERE confirmation_hash=${hash(token.data)} AND confirmation_expires>now() AND status='pending' RETURNING id,email`;
-    if (!rows.length) {
-      const existing =
-        await sql`SELECT status FROM release_subscribers WHERE confirmation_hash=${hash(token.data)}`;
-      if (existing[0]?.status === "subscribed")
-        return NextResponse.json({ ok: true });
+    const service = createReleaseService(
+      releaseStore(),
+      sendEmail,
+      site,
+      process.env.RELEASE_TOKEN_SECRET!,
+    );
+    const result = await service.confirm(token.data);
+    if (result.kind === "invalid")
       return NextResponse.json(
         {
           error:
@@ -55,26 +51,10 @@ export async function POST(request: NextRequest) {
         },
         { status: 410 },
       );
-    }
-    const row = rows[0];
-    try {
-      await sendEmail(
-        String(row.email),
-        "welcome",
-        "https://github.com/sarang-cmd/glance",
-        `${site}/unsubscribe?token=${unsubscribeToken(String(row.id), process.env.RELEASE_TOKEN_SECRET!)}`,
-        String(row.id),
-      );
-      await sql`UPDATE release_subscribers SET welcome_sent_at=now() WHERE id=${row.id}`;
-    } catch {
-      // Subscription remains valid if the welcome email provider fails. No personal data is logged.
-      return NextResponse.json({
-        ok: true,
-        notice:
-          "Your subscription is confirmed. The welcome email could not be delivered.",
-      });
-    }
-    return NextResponse.json({ ok: true });
+    return NextResponse.json({
+      ok: true,
+      ...("notice" in result ? { notice: result.notice } : {}),
+    });
   } catch {
     return NextResponse.json(
       { error: "Confirmation is temporarily unavailable. Please try again." },

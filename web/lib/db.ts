@@ -1,3 +1,4 @@
+import { createReleaseStore } from "./release-store";
 import { neon } from "@neondatabase/serverless";
 export function db() {
   if (!process.env.DATABASE_URL) throw new Error("Release list not configured");
@@ -13,9 +14,7 @@ export function configured() {
     process.env.SITE_URL,
   );
 }
-export async function rateLimit(key: string, max = 5) {
-  const sql = db();
-  const rows =
-    await sql`INSERT INTO release_rate_limits (key,window_start,hits) VALUES (${key},date_trunc('hour',now()),1) ON CONFLICT (key,window_start) DO UPDATE SET hits=release_rate_limits.hits+1 RETURNING hits`;
-  return Number(rows[0].hits) <= max;
+
+export function releaseStore() {
+  return createReleaseStore(db());
 }

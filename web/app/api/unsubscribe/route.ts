@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/db";
-import { hash, tokenSchema } from "@/lib/release";
+import { releaseStore } from "@/lib/db";
+import { tokenSchema } from "@/lib/release";
 export const runtime = "nodejs";
 // RFC 8058 requests are intentionally allowed without an Origin header. The unguessable token authorizes removal only.
 export async function POST(request: NextRequest) {
@@ -21,8 +21,7 @@ export async function POST(request: NextRequest) {
       { status: 503 },
     );
   try {
-    const sql = db();
-    await sql`DELETE FROM release_subscribers WHERE unsubscribe_hash=${hash(token.data)}`;
+    await releaseStore().unsubscribe(token.data);
     return NextResponse.json({ ok: true });
   } catch {
     return NextResponse.json(

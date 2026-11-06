@@ -28,6 +28,7 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.11.0",
+    "@electric-sql/pglite": "^0.5.15",
     "@playwright/test": "^1.56.1",
     "@sparticuz/chromium": "^153.0.0",
     "@types/node": "^22",
