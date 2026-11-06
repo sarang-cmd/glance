@@ -17,3 +17,10 @@ create-repo.ps1
 create-repo.sh
 push-commits.bat
 push-commits.ps1
+
+# web (site)
+web/node_modules/
+web/.next/
+web/.env*.local
+web/next-env.d.ts
+web/tsconfig.tsbuildinfo
