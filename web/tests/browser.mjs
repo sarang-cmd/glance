@@ -128,6 +128,54 @@ for (const width of [390, 1440]) {
         "true",
       );
     }
+    if (path === "/widgets") {
+      for (const id of ["calendar", "study", "github"])
+        await page
+          .locator(`#${id}`)
+          .screenshot({ path: `${out}/combined-${id}-${width}.png` });
+      await page.getByLabel("Sample calendar month").selectOption("10");
+      await page
+        .getByRole("button", {
+          name: "November 21, 2026, sample event",
+          exact: true,
+        })
+        .click();
+      await page
+        .getByRole("status")
+        .filter({ hasText: "18:00 · Exercise session" })
+        .waitFor();
+      await page.getByLabel("Sample calendar month").selectOption("0");
+      assert.equal(
+        await page
+          .getByRole("button", { name: "Previous sample month" })
+          .isDisabled(),
+        true,
+      );
+      await page.getByLabel("Sample calendar month").selectOption("11");
+      assert.equal(
+        await page
+          .getByRole("button", { name: "Next sample month" })
+          .isDisabled(),
+        true,
+      );
+      await page.getByRole("button", { name: "View sample session" }).click();
+      await page
+        .getByRole("status")
+        .filter({ hasText: "60 of 120 focused minutes" })
+        .waitFor();
+      await page
+        .getByRole("button", { name: "Show disconnected state" })
+        .click();
+      await page
+        .getByRole("button", { name: "Counts only", exact: true })
+        .click();
+      assert.equal(
+        await page
+          .getByRole("button", { name: "Counts only", exact: true })
+          .getAttribute("aria-pressed"),
+        "true",
+      );
+    }
     if (path === "/faq") {
       const q = page.getByRole("button", {
         name: "Can I download Glance now?",

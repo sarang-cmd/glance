@@ -475,7 +475,7 @@ small {
   margin: 13px 0;
   color: var(--muted);
 }
-.demo-caption > span:last-child {
+.demo-caption > span:last-child:not(.tiny-dot) {
   margin-left: auto;
 }
 .principle-strip {
@@ -1251,7 +1251,7 @@ small {
     font-size: 9px;
     flex-wrap: wrap;
   }
-  .demo-caption > span:last-child {
+  .demo-caption > span:last-child:not(.tiny-dot) {
     margin: 2px 0 0 14px;
     display: block;
     width: 100%;
@@ -1454,4 +1454,126 @@ small {
 }
 .faq-trigger[data-state="open"] span {
   color: var(--accent);
+}
+.calendar-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 24px 0 16px;
+  gap: 12px;
+}
+.calendar-navigation button {
+  border: 1px solid var(--line);
+  background: var(--paper);
+  border-radius: 3px;
+  width: 32px;
+  height: 32px;
+  font-size: 22px;
+}
+.calendar-navigation select {
+  font-size: 12px;
+  padding: 6px;
+}
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 4px;
+}
+.calendar-days > span {
+  font-size: 9px;
+  text-align: center;
+  color: var(--muted);
+  padding: 4px 0;
+}
+.calendar-days button {
+  position: relative;
+  border: 0;
+  border-radius: 3px;
+  background: transparent;
+  min-height: 32px;
+  font-size: 11px;
+  padding: 4px 0;
+}
+.calendar-days button[aria-pressed="true"] {
+  background: var(--accent);
+  color: var(--surface);
+}
+.calendar-days i {
+  position: absolute;
+  bottom: 3px;
+  left: calc(50% - 1.5px);
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.calendar-detail {
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
+  margin-top: 16px;
+  min-height: 64px;
+  font-size: 12px;
+}
+.calendar-detail strong {
+  font-weight: 500;
+}
+.calendar-detail p {
+  font-size: 11px;
+  margin-top: 6px;
+}
+.integration-section {
+  border-top: 1px solid var(--line);
+}
+.integration-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+.bridge-flow {
+  list-style: decimal;
+  padding: 0 0 0 24px;
+  margin: 0;
+}
+.bridge-flow li {
+  padding: 20px 0 20px 12px;
+  border-bottom: 1px solid var(--line);
+  font-size: 14px;
+}
+.bridge-flow li::marker {
+  color: var(--accent);
+  font-size: 12px;
+}
+.bridge-flow strong {
+  font-weight: 500;
+}
+.bridge-flow p {
+  font-size: 14px;
+  line-height: 1.7;
+  margin-top: 8px;
+  max-width: 400px;
+}
+.study-state {
+  font-size: 16px !important;
+  letter-spacing: 0 !important;
+}
+.sample-detail {
+  font-size: 12px;
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+.integration-feature {
+  margin: 0 0 90px;
+}
+@media (max-width: 760px) {
+  .integration-layout {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .integration-feature .feature-copy {
+    order: -1;
+  }
+  .calendar-days button {
+    min-height: 30px;
+  }
 }

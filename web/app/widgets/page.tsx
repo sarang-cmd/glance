@@ -1,10 +1,14 @@
+import { WeeklyRecapDemo } from "@/components/demos/WeeklyRecapDemo";
+import { SystemHealthDemo } from "@/components/demos/SystemHealthDemo";
+import { CalendarDemo } from "@/components/demos/CalendarDemo";
+import { StudyDemo } from "@/components/demos/StudyDemo";
+import { GitHubDemo } from "@/components/demos/GitHubDemo";
 import { Intro, CTA, Caption, metadataFor } from "@/components/shared";
-import {
-  BatteryDemo,
-  WaterDemo,
-  GraphDemo,
-  TodayDemo,
-} from "@/components/demos";
+import { BatteryDemo } from "@/components/demos/BatteryDemo";
+import { WaterDemo } from "@/components/demos/WaterDemo";
+import { GraphDemo } from "@/components/demos/GraphDemo";
+import { TodayDemo } from "@/components/demos/TodayDemo";
+
 export const metadata = metadataFor("/widgets");
 export default function Widgets() {
   return (
@@ -134,12 +138,13 @@ export default function Widgets() {
                 offline.
               </p>
               <p style={{ marginTop: 16 }}>
-                The Today demo lets you complete a sample task and hide its
-                title. Google Tasks is out of scope for v1.
+                Explore a sample year in this calendar demo. The Today card
+                above lets you complete a sample task. Google Tasks is out of
+                scope for v1.
               </p>
             </div>
             <div className="demo-panel">
-              <TodayDemo />
+              <CalendarDemo />
               <Caption />
             </div>
           </div>
@@ -158,36 +163,7 @@ export default function Widgets() {
               </p>
             </div>
             <div className="demo-panel">
-              <div className="widget">
-                <div className="widget-top">
-                  System health{" "}
-                  <span className="widget-muted">Sample data</span>
-                </div>
-                <div className="system-bars">
-                  {[
-                    ["CPU", 18],
-                    ["RAM", 48],
-                    ["Disk", 32],
-                  ].map(([name, value]) => (
-                    <div key={name}>
-                      <label htmlFor={String(name)}>
-                        {name}
-                        <span>{value}%</span>
-                      </label>
-                      <progress
-                        id={String(name)}
-                        value={Number(value)}
-                        max={100}
-                      >
-                        {value}%
-                      </progress>
-                    </div>
-                  ))}
-                </div>
-                <p style={{ fontSize: 11, marginTop: 24 }}>
-                  Network · 1.2 MB/s down · 0.1 MB/s up
-                </p>
-              </div>
+              <SystemHealthDemo />
               <p className="demo-caption">Sample data visualization</p>
             </div>
           </div>
@@ -207,28 +183,83 @@ export default function Widgets() {
               </p>
             </div>
             <div className="demo-panel">
-              <div className="widget">
-                <div className="widget-top">
-                  Weekly recap <span className="widget-muted">Sample week</span>
-                </div>
-                <div className="recap-number">
-                  480 <small>min</small>
-                </div>
-                <p style={{ fontSize: 12 }}>Focused study</p>
-                <div className="spec-list">
-                  <div>
-                    Water goal reached <span>5 of 7 days</span>
-                  </div>
-                  <div>
-                    Exercise sessions <span>2 done · 1 cancelled</span>
-                  </div>
-                  <div>
-                    Tasks completed <span>12</span>
-                  </div>
-                </div>
-              </div>
+              <WeeklyRecapDemo />
               <p className="demo-caption">Sample data visualization</p>
             </div>
+          </div>
+        </section>
+        <section
+          id="study"
+          className="section integration-section"
+          aria-labelledby="study-heading"
+        >
+          <div className="section-heading">
+            <div>
+              <span className="eyebrow">08 / Study bridge</span>
+              <h2 id="study-heading">
+                Focused time,
+                <br />
+                from its source.
+              </h2>
+            </div>
+            <p>
+              Study with Sarang is planned as the source of verified
+              distraction-free time. Glance reads an opt-in local bridge instead
+              of duplicating drift detection.
+            </p>
+          </div>
+          <div className="integration-layout">
+            <ol className="bridge-flow">
+              <li>
+                <strong>Study with Sarang</strong>
+                <p>Publishes sessions only after the owner opts in.</p>
+              </li>
+              <li>
+                <strong>A local JSON Lines file</strong>
+                <p>
+                  The preferred v1 bridge shares sessions through a local
+                  folder. Its format still needs confirmation in M0.
+                </p>
+              </li>
+              <li>
+                <strong>The Glance study ring</strong>
+                <p>
+                  Shows progress toward 120 focused minutes. Standalone focus
+                  timer sessions remain separate, unverified focus time.
+                </p>
+              </li>
+            </ol>
+            <div className="demo-panel">
+              <StudyDemo />
+              <Caption />
+            </div>
+          </div>
+        </section>
+        <section
+          id="github"
+          className="feature-row integration-feature"
+          aria-labelledby="github-heading"
+        >
+          <div className="demo-panel">
+            <GitHubDemo />
+            <Caption />
+          </div>
+          <div className="feature-copy">
+            <span className="index-number">09 / GITHUB STREAK</span>
+            <h2 id="github-heading">
+              Contributions,
+              <br />
+              at a glance.
+            </h2>
+            <p>
+              Your contribution streak, commits today and contributions this
+              week. Read-only access is planned through a token or OAuth device
+              flow. The same source can feed the all-habits graph.
+            </p>
+            <p style={{ marginTop: 16 }}>
+              Planned for M5. Open pull request and unread notification counts
+              are a later, optional requirement.
+            </p>
           </div>
         </section>
         <CTA />

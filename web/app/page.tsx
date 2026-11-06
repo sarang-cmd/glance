@@ -1,5 +1,8 @@
 import Link from "next/link";
-import { HeroDemo, GraphDemo, TodayDemo } from "@/components/demos";
+import { HeroDemo } from "@/components/demos/HeroDemo";
+import { GraphDemo } from "@/components/demos/GraphDemo";
+import { TodayDemo } from "@/components/demos/TodayDemo";
+
 import { CTA, Caption, metadataFor, JsonLd } from "@/components/shared";
 import { github, site } from "@/lib/content";
 export const metadata = metadataFor("/");
