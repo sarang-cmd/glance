@@ -1,0 +1,76 @@
+"use client";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+export function Signup() {
+  const [message, setMessage] = useState("");
+  const [pending, setPending] = useState(false);
+  const router = useRouter();
+  async function submit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    if (pending) return;
+    setPending(true);
+    setMessage("");
+    const data = new FormData(e.currentTarget);
+    try {
+      const response = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: data.get("email"),
+          website: data.get("website"),
+        }),
+      });
+      const result = await response.json();
+      if (response.ok) {
+        router.push("/thank-you");
+      } else
+        setMessage(
+          result.error ||
+            "We could not process that request. Please try again.",
+        );
+    } catch {
+      setMessage("The connection failed. Please try again.");
+    } finally {
+      setPending(false);
+    }
+  }
+  return (
+    <form className="signup-form" onSubmit={submit}>
+      <label htmlFor="email">Email address</label>
+      <input
+        id="email"
+        name="email"
+        type="email"
+        autoComplete="email"
+        maxLength={254}
+        required
+        placeholder="you@example.com"
+        aria-describedby="signup-details signup-status"
+      />
+      <div className="honeypot" aria-hidden="true">
+        <label htmlFor="website">Leave this field empty</label>
+        <input
+          id="website"
+          name="website"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+        />
+      </div>
+      <button className="button" disabled={pending}>
+        {pending ? "Sending confirmation…" : "Join the release list"}{" "}
+        <span aria-hidden="true">↗</span>
+      </button>
+      <p id="signup-status" className="form-status error" role="status">
+        {message}
+      </p>
+      <small id="signup-details">
+        By subscribing, you request Glance release emails. Confirm your address
+        using the email we send. Unsubscribe using the link in any release
+        email. See our <Link href="/privacy">Privacy Policy</Link> for data
+        practices.
+      </small>
+    </form>
+  );
+}
