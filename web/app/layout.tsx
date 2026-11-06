@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Analytics } from "@vercel/analytics/next";
 import { Header } from "@/components/navigation";
 import { Mark } from "@/components/brand";
 import { Consent } from "@/components/consent";
@@ -83,6 +84,7 @@ export default function RootLayout({
             </div>
           </div>
         </footer>
+        <Analytics />
       </body>
     </html>
   );
