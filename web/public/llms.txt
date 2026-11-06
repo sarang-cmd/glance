@@ -1,0 +1,36 @@
+# Glance
+
+> Ad-free, Apple-style lock screen widgets for Windows 11. Open source (MIT), local-only data, no Microsoft Store. Status: planning. No release, no build, no download exists yet.
+
+Glance replaces the ad-cluttered default Windows 11 widgets with a calm set: battery health and history, habit rings (water, distraction-free study, exercise), a GitHub-style consistency graph, read-only Google Calendar, a built-in offline task list, system health, a combined Today card and a weekly recap.
+
+## Key facts
+
+- License: MIT. Free. No account, no telemetry, no cloud sync.
+- Platform: Windows 11 (PRD targets 26H2). Windows 10, macOS, mobile are non-goals.
+- Distribution plan: sideloaded signed MSIX, then GitHub Releases and winget. No Microsoft Store.
+- Calendar: read-only Google Calendar, user brings their own OAuth client ID.
+- Privacy modes per widget: Full, Redacted (titles hidden), Counts only. Applies on the lock screen and in notifications.
+- Honest data: if a value is unavailable (for example battery cycle count), Glance shows that plainly instead of guessing.
+- Built with C#, WinUI 3, Windows App SDK, SQLite, Adaptive Cards. Rings and graphs render as images.
+- Release list on the site: double opt-in email via Resend, stored in Neon Postgres, one-click unsubscribe.
+
+## Site map
+
+- / : overview, hero demo (sample data), links
+- /widgets : each widget family in detail; interactive demos with sample data; real screenshots will replace them as milestones land
+- /how-it-works : architecture, data flow, privacy model, stack
+- /roadmap : milestones M0 to M6 with scope, exit criteria and honest status (nothing shipped)
+- /get-started : not released; GitHub repo, release list signup
+- /faq : answers drawn from the README and PRD
+- /privacy, /terms, /imprint : legal pages, marked draft for review where the owner must fill in details
+
+## Source of truth
+
+- Repository: https://github.com/sarang-cmd/glance
+- PRD: https://github.com/sarang-cmd/glance/blob/main/docs/PRD.md
+- Issues: https://github.com/sarang-cmd/glance/issues
+
+## Contact
+
+sarang.cmd@gmail.com
