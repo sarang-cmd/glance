@@ -1,5 +1,5 @@
 /* ============================================================
-   Glance — design tokens
+   Glance: design tokens
    Warm neutral canvas, one eucalyptus accent, Fraunces for display,
    Public Sans for text. Radii, borders, spacing and motion are
    tokenized; nothing else reaches for raw values.
@@ -27,7 +27,7 @@
   --on-pine-soft: #aeb4a4;    /* secondary text on pine */
   --pine-line: #35453c;       /* hairline on pine */
 
-  /* Habit hues — functional identity, not decoration. Muted for paper. */
+  /* Habit hues: functional identity, not decoration. Muted for paper. */
   --habit-water: #2b5ea7;
   --habit-study: #b3531a;
   --habit-exercise: #1e7a46;

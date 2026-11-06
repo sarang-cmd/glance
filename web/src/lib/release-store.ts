@@ -21,28 +21,43 @@ const newToken = () => randomBytes(32).toString('hex');
  *  - confirmed: untouched. The caller still answers with a generic message,
  *    so the endpoint never reveals whether an address is on the list.
  */
+function isUniqueViolation(err: unknown): boolean {
+  if (typeof err !== 'object' || err === null) return false;
+  const code = (err as { code?: string }).code;
+  const message = (err as { message?: string }).message ?? '';
+  return code === '23505' || /duplicate key/i.test(message);
+}
+
 export async function requestSignup(db: Queryable, email: string, source: string): Promise<RequestSignupResult> {
-  const first = await db.query(
-    `INSERT INTO release_list (email, status, confirm_token, unsubscribe_token, source)
-     VALUES ($1, 'pending', $2, $3, $4)
-     ON CONFLICT (email) DO NOTHING
-     RETURNING confirm_token, unsubscribe_token`,
-    [email, newToken(), newToken(), source]
-  );
-  if (first.rows.length > 0) {
-    const row = first.rows[0] as { confirm_token: string; unsubscribe_token: string };
-    return { kind: 'created', confirmToken: row.confirm_token, unsubscribeToken: row.unsubscribe_token };
+  const existing = await db.query(`SELECT status FROM release_list WHERE email = $1`, [email]);
+
+  if (existing.rows.length === 0) {
+    const confirmToken = newToken();
+    const unsubscribeToken = newToken();
+    try {
+      await db.query(
+        `INSERT INTO release_list (email, status, confirm_token, unsubscribe_token, source)
+         VALUES ($1, 'pending', $2, $3, $4)`,
+        [email, confirmToken, unsubscribeToken, source]
+      );
+      return { kind: 'created', confirmToken, unsubscribeToken };
+    } catch (err) {
+      // Concurrent signup for the same address: fall through to the rotate path.
+      if (!isUniqueViolation(err)) throw err;
+    }
+  } else if ((existing.rows[0] as { status: string }).status === 'confirmed') {
+    return { kind: 'already-confirmed' };
   }
 
-  const second = await db.query(
+  const rotated = await db.query(
     `UPDATE release_list
        SET status = 'pending', confirm_token = $2, unsubscribe_token = $3, updated_at = now()
      WHERE email = $1 AND status <> 'confirmed'
      RETURNING confirm_token, unsubscribe_token`,
     [email, newToken(), newToken()]
   );
-  if (second.rows.length > 0) {
-    const row = second.rows[0] as { confirm_token: string; unsubscribe_token: string };
+  if (rotated.rows.length > 0) {
+    const row = rotated.rows[0] as { confirm_token: string; unsubscribe_token: string };
     return { kind: 'refreshed', confirmToken: row.confirm_token, unsubscribeToken: row.unsubscribe_token };
   }
 

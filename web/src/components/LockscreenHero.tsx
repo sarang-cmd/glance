@@ -33,8 +33,8 @@ export default function LockscreenHero() {
   return (
     <div className="lockscreen" role="img" aria-label="Illustration of a Windows 11 lock screen running Glance: clock, battery at 86 percent, habit rings, next event, remaining tasks and a year of consistency squares">
       <div className="ls-clock">
-        <div className="ls-time">{time}</div>
-        <div className="ls-date">{date}</div>
+        <div className="ls-time" suppressHydrationWarning>{time}</div>
+        <div className="ls-date" suppressHydrationWarning>{date}</div>
       </div>
 
       <div className="ls-cards">

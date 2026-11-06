@@ -37,14 +37,14 @@ export default function PrivacyPage() {
           <li><strong>Why:</strong> one email when the first build ships. No newsletter, no promotions, no sharing.</li>
           <li><strong>Double opt-in:</strong> nothing is sent except a confirmation link. Your address is only marked confirmed after you click it.</li>
           <li><strong>Unsubscribe:</strong> every email carries a one-click unsubscribe link. Unsubscribing marks the row; it does not silently delete it, and pending addresses that never confirm are simply never emailed again except a fresh confirmation on request.</li>
-          <li><strong>Retention:</strong> DRAFT FOR REVIEW — the owner must set and publish a retention period, or state that rows are kept until you unsubscribe.</li>
+          <li><strong>Retention:</strong> DRAFT FOR REVIEW: the owner must set and publish a retention period, or state that rows are kept until you unsubscribe.</li>
         </ul>
 
         <h2>Email delivery</h2>
         <p>Confirmation and welcome emails are sent with Resend (resend.com). Resend processes the recipient address to deliver the message. If the confirmation email cannot be sent, the signup fails closed with an error message; your address stays pending and is retried only when you sign up again.</p>
 
         <h2>Website hosting and logs</h2>
-        <p>The site is hosted on Vercel and delivered through Cloudflare (DNS and proxy/CDN). Both process standard request data (IP address, user agent, timestamp, requested URL) to serve the site and protect it from abuse. Access to these logs is limited to the site owner; they are used for security and debugging, not for profiling. DRAFT FOR REVIEW — the owner must confirm the configured log retention in the Vercel and Cloudflare dashboards.</p>
+        <p>The site is hosted on Vercel and delivered through Cloudflare (DNS and proxy/CDN). Both process standard request data (IP address, user agent, timestamp, requested URL) to serve the site and protect it from abuse. Access to these logs is limited to the site owner; they are used for security and debugging, not for profiling. DRAFT FOR REVIEW: the owner must confirm the configured log retention in the Vercel and Cloudflare dashboards.</p>
 
         <h2>Analytics: PostHog, only with consent</h2>
         <p>No analytics are loaded and nothing is recorded until you explicitly accept in the consent banner. Accept and decline carry equal weight. If you accept, PostHog (posthog.com, EU or US cloud depending on configuration) records page visits and interactions as configured by the owner. If you decline, PostHog never loads. Your choice is stored in your browser&apos;s local storage, which you can clear at any time.</p>
@@ -56,7 +56,7 @@ export default function PrivacyPage() {
         <p>Glance requests a read-only calendar scope using your own Google OAuth client ID. Glance never writes to your calendar. Calendar data is cached locally on your device and is deleted when you disconnect the integration.</p>
 
         <h2>Your rights</h2>
-        <p>You can unsubscribe with one click from any email. For access, correction or deletion requests about the release list, contact <a href={`mailto:${site.email}`}>{site.email}</a> or <a href={site.issues} rel="noopener">open an issue on GitHub</a>. DRAFT FOR REVIEW — statutory rights vary by jurisdiction; the owner should confirm which regime applies (GDPR, CCPA and others) and list a postal address for written requests.</p>
+        <p>You can unsubscribe with one click from any email. For access, correction or deletion requests about the release list, contact <a href={`mailto:${site.email}`}>{site.email}</a> or <a href={site.issues} rel="noopener">open an issue on GitHub</a>. DRAFT FOR REVIEW: statutory rights vary by jurisdiction; the owner should confirm which regime applies (GDPR, CCPA and others) and list a postal address for written requests.</p>
 
         <h2>Children</h2>
         <p>Glance is a developer tool for adults. The site collects nothing from anyone under 16 by design; the release list stores an email address only.</p>

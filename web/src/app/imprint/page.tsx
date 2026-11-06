@@ -48,7 +48,7 @@ export default function ImprintPage() {
         <p>Sarang Batra, address as above (DRAFT FOR REVIEW).</p>
 
         <h2>EU online dispute resolution</h2>
-        <p>The European Commission provides a platform for online dispute resolution at ec.europa.eu/consumers/odr. The operator is not obligated and not willing to participate in dispute resolution proceedings before a consumer arbitration body. DRAFT FOR REVIEW — confirm this statement with local counsel before removing the note.</p>
+        <p>The European Commission provides a platform for online dispute resolution at ec.europa.eu/consumers/odr. The operator is not obligated and not willing to participate in dispute resolution proceedings before a consumer arbitration body. DRAFT FOR REVIEW: confirm this statement with local counsel before removing the note.</p>
       </div>
     </div>
   );

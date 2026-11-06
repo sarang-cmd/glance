@@ -18,6 +18,8 @@ const markSvg = (ink: string, accent: string, bg?: string) => `
   <circle cx="16" cy="16" r="1.7" fill="${accent}"/>
 </svg>`;
 
+const titleSize = (t: string) => (t.length <= 22 ? 64 : t.length <= 30 ? 54 : 46);
+
 const ogImage = (title: string, subtitle: string) => `
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
   <rect width="1200" height="630" fill="#1e2924"/>
@@ -28,14 +30,14 @@ const ogImage = (title: string, subtitle: string) => `
     <circle cx="22" cy="22" r="2.3" fill="#8ecbbe"/>
     <text x="62" y="31" font-family="Georgia, 'Times New Roman', serif" font-size="25" fill="#eceade" letter-spacing="0.5">Glance</text>
   </g>
-  <text x="80" y="330" font-family="Georgia, 'Times New Roman', serif" font-size="64" font-weight="bold" fill="#eceade" letter-spacing="-1.5">${title}</text>
+  <text x="80" y="330" font-family="Georgia, 'Times New Roman', serif" font-size="${titleSize(title)}" font-weight="bold" fill="#eceade" letter-spacing="-1.5">${title}</text>
   <text x="80" y="430" font-family="Georgia, 'Times New Roman', serif" font-size="28" fill="#aeb4a4">${subtitle}</text>
   <text x="80" y="566" font-family="Consolas, 'DejaVu Sans Mono', monospace" font-size="19" fill="#6f7a70">glance-win.vercel.app</text>
 </svg>`;
 
 const pages: Array<[string, string, string]> = [
-  ['home', 'Ad-free widgets for your lock screen', 'Battery health, habit rings, calendar and tasks. Open source, MIT.'],
-  ['widgets', 'The widget set', 'Battery+ · Habit rings · Consistency graph · Calendar · Tasks · Today card'],
+  ['home', 'Lock screen widgets, minus the feed', 'Battery health, habit rings, calendar and tasks. Open source, MIT.'],
+  ['widgets', 'The widget set', 'Battery+, habit rings, consistency graph, calendar, tasks, recap'],
   ['how-it-works', 'How it works', 'MSIX provider, Adaptive Cards, local collector, local SQLite'],
   ['roadmap', 'Milestones M0 to M6', 'Nothing has shipped yet. Status: planning.'],
   ['get-started', 'Not released yet', 'Star the repo, join the release list, hear when the first build ships'],

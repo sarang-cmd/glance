@@ -48,10 +48,10 @@ export default function TermsPage() {
         <p>The Glance name, mark and this website&apos;s design belong to the project and its contributors. Documentation and text on this site are provided under the same MIT license unless noted otherwise. Third-party marks (Windows, Microsoft, Google, GitHub) belong to their owners; use here is descriptive, not an endorsement.</p>
 
         <h2>Liability</h2>
-        <p>To the maximum extent permitted by law, the operator of this site is not liable for any indirect, incidental or consequential damages arising from its use, including reliance on unreleased pre-release information. DRAFT FOR REVIEW — a liability cap appropriate to the operator&apos;s jurisdiction should be set here.</p>
+        <p>To the maximum extent permitted by law, the operator of this site is not liable for any indirect, incidental or consequential damages arising from its use, including reliance on unreleased pre-release information. DRAFT FOR REVIEW: a liability cap appropriate to the operator&apos;s jurisdiction should be set here.</p>
 
         <h2>Governing law and venue</h2>
-        <p>DRAFT FOR REVIEW — the operator must specify the governing law and venue. Placeholder: the law of the country where the operator is established, with exclusive jurisdiction in its competent courts.</p>
+        <p>DRAFT FOR REVIEW: the operator must specify the governing law and venue. Placeholder: the law of the country where the operator is established, with exclusive jurisdiction in its competent courts.</p>
 
         <h2>Changes and contact</h2>
         <p>Changes to these terms will be posted on this page with a new &ldquo;last updated&rdquo; date. Questions: <a href={`mailto:${site.email}`}>{site.email}</a> or <a href={site.issues} rel="noopener">GitHub Issues</a>.</p>

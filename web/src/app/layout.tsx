@@ -10,7 +10,7 @@ import { site } from '@/lib/site';
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: 'Glance — Ad-free lock screen widgets for Windows 11',
+    default: 'Glance: Ad-free lock screen widgets for Windows 11',
     template: '%s · Glance'
   },
   description: site.description,
@@ -24,13 +24,13 @@ export const metadata: Metadata = {
     siteName: 'Glance',
     locale: 'en_US',
     url: '/',
-    title: 'Glance — Ad-free lock screen widgets for Windows 11',
+    title: 'Glance: ad-free lock screen widgets for Windows 11',
     description: site.description,
     images: [{ url: '/og/home.png', width: 1200, height: 630, alt: 'Glance, ad-free lock screen widgets for Windows 11' }]
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Glance — Ad-free lock screen widgets for Windows 11',
+    title: 'Glance: ad-free lock screen widgets for Windows 11',
     description: site.description,
     images: ['/og/home.png']
   },
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     ],
     apple: [{ url: '/apple-touch-icon.png', sizes: '180x180' }]
   },
-  manifest: '/site.webmanifest'
+  manifest: '/manifest.webmanifest'
 };
 
 export const viewport: Viewport = {

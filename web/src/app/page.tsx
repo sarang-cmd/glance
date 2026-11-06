@@ -61,7 +61,7 @@ export default function HomePage() {
       <section className="hero">
         <div className="container hero-grid">
           <div>
-            <p className="hero-eyebrow">Windows 11 · Open source · MIT</p>
+            <p className="hero-eyebrow">Open source, MIT licensed, Windows 11</p>
             <HeroIntro />
             <div className="hero-ctas">
               <a className="btn btn-primary" href={site.github} rel="noopener">Star on GitHub</a>
