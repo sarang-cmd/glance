@@ -117,6 +117,14 @@ Design checklist followed:
 
 Resource review: Apple, Radix introduction, Motion repository and Unpromptable article were accessible. Vibemole failed to load. No attached images or `SKILL.md` were present in the supplied workspace/message; they were requested and remain outstanding. Their contents were not invented.
 
+## Release-list test architecture
+
+The production routes call `lib/release-service.ts`, which orchestrates `lib/release-store.ts` and the Resend sender. Store functions receive a tagged SQL adapter. Production uses Neon; tests use PGlite, an embedded PostgreSQL engine, and load the unchanged `schema.sql`. Email calls are captured in tests, not sent externally.
+
+`npm test` now runs 21 checks: the original 10 validation/API checks plus 11 PostgreSQL-backed lifecycle tests. These exercise signup, confirmation, welcome, unsubscribe and rejoining, cooldown/rotation, expiry, concurrent actions, shared hourly counters, cleanup, parameter binding and simulated email failures. This verifies the actual production SQL and orchestration locally. Hosted Neon transport, real multi-instance behavior and real Resend delivery still require the live acceptance checklist above.
+
+Demo components live individually under `components/demos/`. The Widgets page includes a sample-year calendar, study bridge explanation and connection-state demo, and GitHub streak sample. The visual tokens, chosen mark and system type stack remain unchanged from PR #1.
+
 ## Quality commands
 
 ```sh
@@ -129,7 +137,7 @@ SITE_URL=http://localhost:3000 npm run start
 TEST_BASE_URL=http://localhost:3000 npm run test:browser
 ```
 
-`tests/browser.mjs` uses Playwright and axe at 390 px and 1440 px, checks all 13 page/state routes, internal link status, single H1, overflow, menu Escape behavior, water logging, battery range, privacy selection, task completion, FAQ keyboard expansion and the unavailable-form state. It writes reports outside Git by default. Set `TEST_OUTPUT_DIR` for another output location. Full external mail delivery is not part of that script.
+`tests/browser.mjs` uses Playwright and axe at 390 px and 1440 px, checks all 13 page/state routes, internal link status, single H1, overflow, menu Escape behavior, water logging, battery range, privacy selection, task completion, calendar month bounds and event selection, study bridge sample states, GitHub counts mode, FAQ keyboard expansion and the unavailable-form state. It writes reports outside Git by default. Set `TEST_OUTPUT_DIR` for another output location. Full external mail delivery is not part of that script.
 
 For a normal workstation, point `CHROMIUM_PATH` at an installed browser, or use the bundled `@sparticuz/chromium` development helper. In this sandbox the standard Playwright download was blocked. The helper's AL2023 libraries were extracted locally, and `LD_LIBRARY_PATH=/tmp/al2023/lib` was used. Those temporary binaries and reports were not committed.
 

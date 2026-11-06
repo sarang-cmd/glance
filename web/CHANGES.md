@@ -1,6 +1,20 @@
 # Website changes and verification
 
-Date: 2026-11-06. Work is in `web/` on `arena/241b2e6a-glance`. Existing product README, PRD, license and original assets were preserved. Nothing was deployed or pushed.
+Date: 2026-11-06. Work is in `web/` on `arena/241b2e6a-glance`. Existing product README, PRD, license and original assets were preserved. Nothing was deployed. Changes are published through PR #1.
+
+## Selective combination with PR #2
+
+PR #1 remains the base. PR #2's useful ideas were adapted without merging its whole branch:
+
+- Extracted the production release store and email orchestration into injectable modules. The test adapter runs their exact tagged SQL against PGlite, an embedded PostgreSQL engine, and captures email sends without contacting Resend. No alternate production path or test-mode endpoint was added.
+- Expanded the suite from 10 to 21 tests, including the full subscription lifecycle, expiry, resend rotation, concurrent actions, persistent counters, failure recovery and rejoining after deletion.
+- Split the demo module into focused components under `components/demos/`, including the static system-health and recap visuals.
+- Replaced the duplicated Today demo in the calendar section with a dedicated interactive sample-year calendar.
+- Added explicit study bridge and GitHub streak sections using PRD facts. The bridge demo distinguishes unavailable data from zero progress, and labels simulated connected data.
+- Preserved the selected pine identity, ring mark and existing typography. Did not add an unreviewed dark theme or change the visual direction.
+- Kept database-backed throttling, hashed expiring tokens, POST confirmation, RFC 8058 unsubscribe, consent controls and current production dependencies. PR #2's weaker counterparts were not imported.
+
+After combination, build, lint, TypeScript, formatting, 21 tests and the 26 browser/page-width combinations passed. Browser tests now also exercise calendar month bounds and sample events, study sample/disconnected states and GitHub counts mode. Axe found zero configured violations, with zero recorded runtime errors or broken internal destinations. An initial combined-site mobile home Lighthouse run measured 100 in all four standard categories. After the final caption/state-label corrections, repeat runs returned 100 for accessibility, best practices and SEO, but could not produce a performance score because this Chromium environment failed to collect load screenshots (NO_SCREENSHOTS). The earlier successful performance score is not presented as a completed final rerun. The new desktop and mobile integration sections were visually inspected using section-sized screenshots; very tall full-page screenshots can exceed this headless browser's capture surface.
 
 ## Delivered
 
@@ -28,7 +42,7 @@ Commands executed successfully from `web/`:
 - `npm run lint`: no ESLint errors.
 - `npm run typecheck`: no TypeScript errors.
 - `npm run format:check`: all checked application, component, library, script and test files formatted.
-- `npm test`: **10 passing tests**. These cover email validation and invalid inputs, random token shape and hashing, unsubscribe derivation, origin checks, both email variants, honeypot behavior, invalid/missing-service API responses and bounded streamed JSON parsing. They do not execute live Neon queries or send real mail.
+- `npm test`: **21 passing tests**. These cover email validation and invalid inputs, random token shape and hashing, unsubscribe derivation, origin checks, both email variants, honeypot behavior, invalid/missing-service API responses and bounded streamed JSON parsing. Eleven additional lifecycle tests now execute the production service and parameterized SQL against embedded PostgreSQL (PGlite) using the real schema. They cover confirmation and welcome orchestration, pending resend cooldown and token rotation, expiry, concurrent requests, shared counters, cleanup, unsubscribe/rejoin, bound hostile text and simulated delivery failures. They do not execute live Neon queries or send real mail.
 - `npm audit --omit=dev`: **0 production dependency vulnerabilities** at test time.
 - Full `npm audit`: **8 moderate development-tool findings**, through the ESLint TypeScript/minimatch chain. No incompatible forced downgrade was applied. Recheck upstream before production maintenance work.
 - `.env.local` is ignored and `.env.example` is not ignored. No credentials or subscriber data were added.
@@ -70,7 +84,7 @@ HTTP response headers were inspected directly using `curl -I`: CSP, HSTS, Permis
 
 ## Not tested or not completed
 
-- **No live Neon database or Resend credentials were supplied.** Actual SQL execution, database concurrency, end-to-end confirmation delivery, welcome delivery, SPF/DKIM/DMARC, mailbox one-click unsubscribe and real delivery failures were not tested. This is the main release-list acceptance blocker. A precise manual test plan is in `README.md`.
+- **No live Neon database or Resend credentials were supplied.** Hosted Neon execution, multi-instance deployment behavior, end-to-end confirmation delivery, welcome delivery, SPF/DKIM/DMARC, mailbox one-click unsubscribe and real delivery failures were not tested. This is the main release-list acceptance blocker. A precise manual test plan is in `README.md`. Local PostgreSQL lifecycle and concurrency tests do pass; they are not a substitute for the hosted acceptance run.
 - Positive PostHog delivery and revocation with a configured project were not tested. No project was created, and the website remains analytics-free without a key.
 - External GitHub and mailto links were reviewed for their destinations, not tested as signed-in GitHub interactions or delivered contact emails.
 - No Windows software was built or tested. Website demos do not prove lock screen behavior or actual battery reporting.
