@@ -1,3 +1,39 @@
-import {Intro,metadataFor} from '@/components/shared';
-export const metadata=metadataFor('/imprint');
-export default function Imprint(){return <div className="container"><Intro path="/imprint" label="Imprint"/><article className="prose"><p className="draft">DRAFT FOR REVIEW. Some jurisdictions, including Germany, require specific provider identification. This draft is incomplete and is not legal advice. The owner must supply and review the applicable details before publication.</p><h2>Website owner</h2><p>Sarang Batra<br/>Website: glance-win.vercel.app<br/>Email: <a href="mailto:sarang.cmd@gmail.com">sarang.cmd@gmail.com</a></p><h2>Required details still under review</h2><p>DRAFT FOR REVIEW: serviceable postal address and country of establishment have not been supplied. Legal form, registration details, authorized representative, VAT identification, telephone or other required direct contact method and content responsibility must be assessed and added where applicable.</p><h2>Legal review</h2><p>DRAFT FOR REVIEW: confirm the applicable jurisdiction, provider identification requirements and any dispute resolution information. Do not treat this page as a completed German imprint.</p></article></div>}
+import { Intro, metadataFor } from "@/components/shared";
+export const metadata = metadataFor("/imprint");
+export default function Imprint() {
+  return (
+    <div className="container">
+      <Intro path="/imprint" label="Imprint" />
+      <article className="prose">
+        <p className="draft">
+          DRAFT FOR REVIEW. Some jurisdictions, including Germany, require
+          specific provider identification. This draft is incomplete and is not
+          legal advice. The owner must supply and review the applicable details
+          before publication.
+        </p>
+        <h2>Website owner</h2>
+        <p>
+          Sarang Batra
+          <br />
+          Website: glance-win.vercel.app
+          <br />
+          Email: <a href="mailto:sarang.cmd@gmail.com">sarang.cmd@gmail.com</a>
+        </p>
+        <h2>Required details still under review</h2>
+        <p>
+          DRAFT FOR REVIEW: serviceable postal address and country of
+          establishment have not been supplied. Legal form, registration
+          details, authorized representative, VAT identification, telephone or
+          other required direct contact method and content responsibility must
+          be assessed and added where applicable.
+        </p>
+        <h2>Legal review</h2>
+        <p>
+          DRAFT FOR REVIEW: confirm the applicable jurisdiction, provider
+          identification requirements and any dispute resolution information. Do
+          not treat this page as a completed German imprint.
+        </p>
+      </article>
+    </div>
+  );
+}

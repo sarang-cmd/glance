@@ -1,0 +1,21 @@
+# Glance
+
+> Glance is a planned MIT-licensed set of ad-free Windows 11 lock screen widgets and a companion app. Nothing has shipped yet.
+
+Website: https://glance-win.vercel.app
+Source: https://github.com/sarang-cmd/glance
+Product requirements: https://github.com/sarang-cmd/glance/blob/main/docs/PRD.md
+README: https://github.com/sarang-cmd/glance/blob/main/README.md
+
+## Pages
+- [Widgets](https://glance-win.vercel.app/widgets): planned widget families. Website demos use sample data and do not establish actual Windows behavior.
+- [How it works](https://glance-win.vercel.app/how-it-works): MSIX, Windows App SDK, Adaptive Cards, WinUI 3, local collector and SQLite.
+- [Roadmap](https://glance-win.vercel.app/roadmap): M0 to M6, all planned.
+- [FAQ](https://glance-win.vercel.app/faq): availability, privacy, Windows support and integrations.
+- [Get started](https://glance-win.vercel.app/get-started): GitHub and double opt-in release list. No download available.
+- [Privacy](https://glance-win.vercel.app/privacy): draft website data practices, separate from planned product privacy.
+- [Terms](https://glance-win.vercel.app/terms): draft website terms.
+- [Imprint](https://glance-win.vercel.app/imprint): incomplete draft provider identification.
+
+## Important qualifications
+Lock screen button interactivity is unverified until M0. Battery cycle data depends on firmware. Google Calendar is read-only, with a user-supplied OAuth client ID. Product data is designed to stay local with no product telemetry. Website analytics are optional and require explicit consent. No release date has been announced. Legal drafts require owner review.

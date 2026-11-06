@@ -1,4 +1,40 @@
-import {Intro,CTA,metadataFor} from '@/components/shared';
-import {milestones,github} from '@/lib/content';
-export const metadata=metadataFor('/roadmap');
-export default function Roadmap(){return <div className="container"><Intro path="/roadmap" label="Roadmap"><p>Seven milestones, starting with the platform questions. All milestones are planned. No product code has shipped and no release date is set.</p></Intro><div className="roadmap">{milestones.map(([id,title,scope,exit],i)=><section className="milestone" key={id}><span>{id}</span><div><h2>{title}</h2><span className="status">{i===0?'Planned · First milestone':'Planned'}</span></div><div><p>{scope}</p><small>Exit criteria: {exit}</small></div></section>)}</div><p className="inline-notice">Source of truth: <a className="text-link" href={`${github}/blob/main/docs/PRD.md`}>PRD version 0.2 ↗</a>. Milestones describe scope, not delivery commitments.</p><CTA/></div>}
+import { Intro, CTA, metadataFor } from "@/components/shared";
+import { milestones, github } from "@/lib/content";
+export const metadata = metadataFor("/roadmap");
+export default function Roadmap() {
+  return (
+    <div className="container">
+      <Intro path="/roadmap" label="Roadmap">
+        <p>
+          Seven milestones, starting with the platform questions. All milestones
+          are planned. No product code has shipped and no release date is set.
+        </p>
+      </Intro>
+      <div className="roadmap">
+        {milestones.map(([id, title, scope, exit], i) => (
+          <section className="milestone" key={id}>
+            <span>{id}</span>
+            <div>
+              <h2>{title}</h2>
+              <span className="status">
+                {i === 0 ? "Planned · First milestone" : "Planned"}
+              </span>
+            </div>
+            <div>
+              <p>{scope}</p>
+              <small>Exit criteria: {exit}</small>
+            </div>
+          </section>
+        ))}
+      </div>
+      <p className="inline-notice">
+        Source of truth:{" "}
+        <a className="text-link" href={`${github}/blob/main/docs/PRD.md`}>
+          PRD version 0.2 ↗
+        </a>
+        . Milestones describe scope, not delivery commitments.
+      </p>
+      <CTA />
+    </div>
+  );
+}

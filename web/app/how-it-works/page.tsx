@@ -1,5 +1,72 @@
-import {Intro,CTA,metadataFor} from '@/components/shared';
-import {github} from '@/lib/content';
-export const metadata=metadataFor('/how-it-works');
-const steps=[['01','A Windows widget provider','Lock screen widgets are the same widgets available in the Windows Widgets board, which you can pin to the lock screen. Glance plans to register a provider through the Windows App SDK. A plain Win32 executable cannot draw on the lock screen.'],['02','One packaged app','A signed MSIX will package the suite. The planned stack is C#, WinUI 3 and the Windows App SDK. GitHub Releases and winget are the intended distribution channels. No Microsoft Store is needed.'],['03','Adaptive Cards on the surface','Windows renders the widget UI from Adaptive Cards. Their styling is limited, so the app will render rings, graphs and sparklines as images and embed them in the cards. These website demos use HTML and SVG instead.'],['04','A collector behind the scenes','The widget provider runs only when Windows requests it. A separate background collector will sample battery and system metrics into local SQLite storage. The provider and companion app read from that database.'],['05','A companion for the full picture','The WinUI 3 companion app will handle settings, privacy modes, habit editing, calendar month and year views and weekly recaps. The planned tray interface offers actions when a widget cannot.']];
-export default function How(){return <div className="container"><Intro path="/how-it-works" label="How it works"><p>A packaged widget provider, a companion app and a local collector. Built around the Windows widget platform, with its constraints in view.</p></Intro><div className="architecture" aria-label="Planned data flow"><span>Collector & integrations</span><b aria-hidden="true">→</b><span>Local SQLite</span><b aria-hidden="true">→</b><span>Widgets & companion app</span></div>{steps.map(([n,title,description])=><section className="technical-step" key={n}><span className="index-number">{n}</span><h2>{title}</h2><p>{description}</p></section>)}<section className="prose" style={{paddingTop:35}}><h2>The first question is still open.</h2><p>Lock screen interactivity is unverified. Buttons may be unavailable while locked or may require unlock. M0 tests that behavior before the rest of the product is built. Notification actions, the tray flyout and deep links are possible fallbacks.</p><p><a href={`${github}/blob/main/docs/PRD.md`}>Read the technical requirements on GitHub ↗</a></p></section><CTA/></div>}
+import { Intro, CTA, metadataFor } from "@/components/shared";
+import { github } from "@/lib/content";
+export const metadata = metadataFor("/how-it-works");
+const steps = [
+  [
+    "01",
+    "A Windows widget provider",
+    "Lock screen widgets are the same widgets available in the Windows Widgets board, which you can pin to the lock screen. Glance plans to register a provider through the Windows App SDK. A plain Win32 executable cannot draw on the lock screen.",
+  ],
+  [
+    "02",
+    "One packaged app",
+    "A signed MSIX will package the suite. The planned stack is C#, WinUI 3 and the Windows App SDK. GitHub Releases and winget are the intended distribution channels. No Microsoft Store is needed.",
+  ],
+  [
+    "03",
+    "Adaptive Cards on the surface",
+    "Windows renders the widget UI from Adaptive Cards. Their styling is limited, so the app will render rings, graphs and sparklines as images and embed them in the cards. These website demos use HTML and SVG instead.",
+  ],
+  [
+    "04",
+    "A collector behind the scenes",
+    "The widget provider runs only when Windows requests it. A separate background collector will sample battery and system metrics into local SQLite storage. The provider and companion app read from that database.",
+  ],
+  [
+    "05",
+    "A companion for the full picture",
+    "The WinUI 3 companion app will handle settings, privacy modes, habit editing, calendar month and year views and weekly recaps. The planned tray interface offers actions when a widget cannot.",
+  ],
+];
+export default function How() {
+  return (
+    <div className="container">
+      <Intro path="/how-it-works" label="How it works">
+        <p>
+          A packaged widget provider, a companion app and a local collector.
+          Built around the Windows widget platform, with its constraints in
+          view.
+        </p>
+      </Intro>
+      <div className="architecture" aria-label="Planned data flow">
+        <span>Collector & integrations</span>
+        <b aria-hidden="true">→</b>
+        <span>Local SQLite</span>
+        <b aria-hidden="true">→</b>
+        <span>Widgets & companion app</span>
+      </div>
+      {steps.map(([n, title, description]) => (
+        <section className="technical-step" key={n}>
+          <span className="index-number">{n}</span>
+          <h2>{title}</h2>
+          <p>{description}</p>
+        </section>
+      ))}
+      <section className="prose" style={{ paddingTop: 35 }}>
+        <h2>The first question is still open.</h2>
+        <p>
+          Lock screen interactivity is unverified. Buttons may be unavailable
+          while locked or may require unlock. M0 tests that behavior before the
+          rest of the product is built. Notification actions, the tray flyout
+          and deep links are possible fallbacks.
+        </p>
+        <p>
+          <a href={`${github}/blob/main/docs/PRD.md`}>
+            Read the technical requirements on GitHub ↗
+          </a>
+        </p>
+      </section>
+      <CTA />
+    </div>
+  );
+}

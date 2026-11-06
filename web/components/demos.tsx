@@ -1,9 +1,287 @@
-'use client';
-import {useState} from 'react';
-import {motion,useReducedMotion} from 'motion/react';
-export function Ring({value=60,size=104}:{value?:number;size?:number}){return <svg className="ring" width={size} height={size} viewBox="0 0 110 110" aria-hidden="true"><circle cx="55" cy="55" r="45" fill="none" stroke="var(--ring-track)" strokeWidth="8"/><circle cx="55" cy="55" r="45" fill="none" stroke="currentColor" strokeWidth="8" strokeLinecap="round" strokeDasharray={`${Math.min(value,100)*2.827} 283`} transform="rotate(-90 55 55)"/></svg>}
-export function WaterDemo(){const [water,setWater]=useState(1250);return <div className="widget water-widget"><div className="widget-top"><span>Water</span><span className="widget-muted">Daily progress</span></div><div className="water-body"><div className="ring-wrap"><Ring value={water/25}/><span>{Math.round(water/25)}<small>%</small></span></div><div><strong>{(water/1000).toFixed(2)} <small>L</small></strong><p>of 2.5 L daily goal</p></div></div><div className="widget-bottom"><button onClick={()=>setWater(v=>Math.min(v+250,4000))} disabled={water>=4000}>+ 250 ml</button><button className="quiet" onClick={()=>setWater(1250)}>Reset</button><span role="status" className="sr-only">{water} milliliters logged</span></div></div>}
-export function BatteryDemo(){const [view,setView]=useState('24 hours');return <div className="widget battery-widget"><div className="widget-top"><span>Battery+</span><span className="battery-icon" aria-hidden="true">▰</span></div><div className="battery-number">82<span>%</span><small>On battery</small></div><svg className="charge-chart" viewBox="0 0 300 70" role="img" aria-label={`Sample battery charge over ${view}`}><path d="M0 18H300 M0 43H300 M0 68H300" stroke="var(--line)" strokeWidth="1"/><path d={view==='24 hours'?'M0 45 15 47 28 35 44 39 60 30 75 35 90 18 105 22 120 14 140 17 160 27 177 28 190 30 210 35 228 20 240 8 254 15 275 19 300 22':'M0 55 25 8 50 30 75 60 100 15 125 25 150 53 175 8 200 32 225 55 250 12 275 25 300 22'} fill="none" stroke="var(--accent)" strokeWidth="2.5" strokeLinejoin="round"/></svg><div className="chart-controls">{['24 hours','7 days'].map(v=><button key={v} aria-pressed={view===v} onClick={()=>setView(v)}>{v}</button>)}</div><div className="battery-stats"><span>Health <b>94%</b></span><span>Cycles <b>Not reported by this device</b></span></div></div>}
-export function GraphDemo(){const [habit,setHabit]=useState('Water');const [selected,setSelected]=useState<number|null>(null);return <div className="widget graph-widget"><div className="widget-top"><span>Consistency</span><label className="sr-only" htmlFor="habit">Sample habit</label><select id="habit" value={habit} onChange={e=>{setHabit(e.target.value);setSelected(null)}}>{['Water','Study','Exercise'].map(h=><option key={h}>{h}</option>)}</select></div><div className="heatmap" role="group" aria-label={`${habit} sample days`}>{Array.from({length:105},(_,i)=>{const level=(i*7+i%3+(habit==='Study'?2:habit==='Exercise'?3:0))%5;return <button key={i} className={`heat level-${level}${i===37?' excused':''}`} aria-label={`Sample day ${i+1}: ${i===37?'excused':`${level*25}% of goal`}`} aria-pressed={selected===i} onClick={()=>setSelected(i)}/>})}</div><div className="graph-bottom"><span role="status">{selected===null?'Select a day to explore':selected===37?'Day 38 · Excused':`Day ${selected+1} · ${((selected*7+selected%3+(habit==='Study'?2:habit==='Exercise'?3:0))%5)*25}% of goal`}</span><span>Less <i/> <i/> <i/> More</span></div></div>}
-export function TodayDemo(){const [mode,setMode]=useState('Full');const [done,setDone]=useState(false);return <div className="widget today-widget"><div className="widget-top"><span>Today</span><select aria-label="Demo privacy mode" value={mode} onChange={e=>setMode(e.target.value)}>{['Full','Redacted','Counts only'].map(m=><option key={m}>{m}</option>)}</select></div><div className="today-event"><span className="time">14:00</span><div><strong>{mode==='Full'?'Study session':mode==='Redacted'?'Event at 14:00':'1 event'}</strong><p>{mode==='Full'?'Your next calendar event':'Calendar'}</p></div></div><label className="task-row"><input type="checkbox" checked={done} onChange={e=>setDone(e.target.checked)}/><span>{mode==='Full'?'Review study notes':mode==='Redacted'?`${done?0:1} tasks left`:`${done?0:1}`}</span></label><div className="mini-rings">{[['Water',60],['Study',75],['Exercise',35]].map(([s,n])=><div key={s}><Ring value={Number(n)} size={64}/><span>{s}</span></div>)}</div></div>}
-export function HeroDemo(){const reduced=useReducedMotion();return <motion.div className="hero-product" initial={{opacity:1,y:reduced?0:12}} animate={{y:0}} transition={{duration:.45}}><div className="demo-stage"><div className="stage-caption"><span>WINDOWS 11 / A QUIETER LOCK SCREEN</span><span>GLANCE CONCEPT 01</span></div><div className="lock-clock" aria-hidden="true">09:41<small>Wednesday, October 21</small></div><div className="hero-widgets"><BatteryDemo/><WaterDemo/></div><div className="stage-bottom"><span className="stage-mark">g.</span><p>Your data. Your device.</p><span>Local-first by design</span></div></div><p className="demo-caption"><span className="tiny-dot"/> Interactive demo with sample data <span>Planned UI. Lock screen interactions are unverified.</span></p></motion.div>}
+"use client";
+import { useState } from "react";
+import { motion, useReducedMotion } from "motion/react";
+export function Ring({
+  value = 60,
+  size = 104,
+}: {
+  value?: number;
+  size?: number;
+}) {
+  return (
+    <svg
+      className="ring"
+      width={size}
+      height={size}
+      viewBox="0 0 110 110"
+      aria-hidden="true"
+    >
+      <circle
+        cx="55"
+        cy="55"
+        r="45"
+        fill="none"
+        stroke="var(--ring-track)"
+        strokeWidth="8"
+      />
+      <circle
+        cx="55"
+        cy="55"
+        r="45"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="8"
+        strokeLinecap="round"
+        strokeDasharray={`${Math.min(value, 100) * 2.827} 283`}
+        transform="rotate(-90 55 55)"
+      />
+    </svg>
+  );
+}
+export function WaterDemo() {
+  const [water, setWater] = useState(1250);
+  return (
+    <div className="widget water-widget">
+      <div className="widget-top">
+        <span>Water</span>
+        <span className="widget-muted">Daily progress</span>
+      </div>
+      <div className="water-body">
+        <div className="ring-wrap">
+          <Ring value={water / 25} />
+          <span>
+            {Math.round(water / 25)}
+            <small>%</small>
+          </span>
+        </div>
+        <div>
+          <strong>
+            {(water / 1000).toFixed(2)} <small>L</small>
+          </strong>
+          <p>of 2.5 L daily goal</p>
+        </div>
+      </div>
+      <div className="widget-bottom">
+        <button
+          onClick={() => setWater((v) => Math.min(v + 250, 4000))}
+          disabled={water >= 4000}
+        >
+          + 250 ml
+        </button>
+        <button className="quiet" onClick={() => setWater(1250)}>
+          Reset
+        </button>
+        <span role="status" className="sr-only">
+          {water} milliliters logged
+        </span>
+      </div>
+    </div>
+  );
+}
+export function BatteryDemo() {
+  const [view, setView] = useState("24 hours");
+  return (
+    <div className="widget battery-widget">
+      <div className="widget-top">
+        <span>Battery+</span>
+        <span className="battery-icon" aria-hidden="true">
+          ▰
+        </span>
+      </div>
+      <div className="battery-number">
+        82<span>%</span>
+        <small>On battery</small>
+      </div>
+      <svg
+        className="charge-chart"
+        viewBox="0 0 300 70"
+        role="img"
+        aria-label={`Sample battery charge over ${view}`}
+      >
+        <path
+          d="M0 18H300 M0 43H300 M0 68H300"
+          stroke="var(--line)"
+          strokeWidth="1"
+        />
+        <path
+          d={
+            view === "24 hours"
+              ? "M0 45 15 47 28 35 44 39 60 30 75 35 90 18 105 22 120 14 140 17 160 27 177 28 190 30 210 35 228 20 240 8 254 15 275 19 300 22"
+              : "M0 55 25 8 50 30 75 60 100 15 125 25 150 53 175 8 200 32 225 55 250 12 275 25 300 22"
+          }
+          fill="none"
+          stroke="var(--accent)"
+          strokeWidth="2.5"
+          strokeLinejoin="round"
+        />
+      </svg>
+      <div className="chart-controls">
+        {["24 hours", "7 days"].map((v) => (
+          <button key={v} aria-pressed={view === v} onClick={() => setView(v)}>
+            {v}
+          </button>
+        ))}
+      </div>
+      <div className="battery-stats">
+        <span>
+          Health <b>94%</b>
+        </span>
+        <span>
+          Cycles <b>Not reported by this device</b>
+        </span>
+      </div>
+    </div>
+  );
+}
+export function GraphDemo() {
+  const [habit, setHabit] = useState("Water");
+  const [selected, setSelected] = useState<number | null>(null);
+  return (
+    <div className="widget graph-widget">
+      <div className="widget-top">
+        <span>Consistency</span>
+        <label className="sr-only" htmlFor="habit">
+          Sample habit
+        </label>
+        <select
+          id="habit"
+          value={habit}
+          onChange={(e) => {
+            setHabit(e.target.value);
+            setSelected(null);
+          }}
+        >
+          {["Water", "Study", "Exercise"].map((h) => (
+            <option key={h}>{h}</option>
+          ))}
+        </select>
+      </div>
+      <div className="heatmap" role="group" aria-label={`${habit} sample days`}>
+        {Array.from({ length: 56 }, (_, i) => {
+          const level =
+            (i * 7 +
+              (i % 3) +
+              (habit === "Study" ? 2 : habit === "Exercise" ? 3 : 0)) %
+            5;
+          return (
+            <button
+              key={i}
+              className={`heat level-${level}${i === 37 ? " excused" : ""}`}
+              aria-label={`Sample day ${i + 1}: ${i === 37 ? "excused" : `${level * 25}% of goal`}`}
+              aria-pressed={selected === i}
+              onClick={() => setSelected(i)}
+            />
+          );
+        })}
+      </div>
+      <div className="graph-bottom">
+        <span role="status">
+          {selected === null
+            ? "Select a day to explore"
+            : selected === 37
+              ? "Day 38 · Excused"
+              : `Day ${selected + 1} · ${((selected * 7 + (selected % 3) + (habit === "Study" ? 2 : habit === "Exercise" ? 3 : 0)) % 5) * 25}% of goal`}
+        </span>
+        <span>
+          Less <i /> <i /> <i /> More
+        </span>
+      </div>
+    </div>
+  );
+}
+export function TodayDemo() {
+  const [mode, setMode] = useState("Full");
+  const [done, setDone] = useState(false);
+  return (
+    <div className="widget today-widget">
+      <div className="widget-top">
+        <span>Today</span>
+        <select
+          aria-label="Demo privacy mode"
+          value={mode}
+          onChange={(e) => setMode(e.target.value)}
+        >
+          {["Full", "Redacted", "Counts only"].map((m) => (
+            <option key={m}>{m}</option>
+          ))}
+        </select>
+      </div>
+      <div className="today-event">
+        <span className="time">14:00</span>
+        <div>
+          <strong>
+            {mode === "Full"
+              ? "Study session"
+              : mode === "Redacted"
+                ? "Event at 14:00"
+                : "1 event"}
+          </strong>
+          <p>{mode === "Full" ? "Your next calendar event" : "Calendar"}</p>
+        </div>
+      </div>
+      <label className="task-row">
+        <input
+          type="checkbox"
+          checked={done}
+          onChange={(e) => setDone(e.target.checked)}
+        />
+        <span>
+          {mode === "Full"
+            ? "Review study notes"
+            : mode === "Redacted"
+              ? `${done ? 0 : 1} tasks left`
+              : `${done ? 0 : 1}`}
+        </span>
+      </label>
+      <div className="mini-rings">
+        {[
+          ["Water", 60],
+          ["Study", 75],
+          ["Exercise", 35],
+        ].map(([s, n]) => (
+          <div key={s}>
+            <Ring value={Number(n)} size={64} />
+            <span>
+              {s}
+              <span className="sr-only">{n}% of sample goal</span>
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+export function HeroDemo() {
+  const reduced = useReducedMotion();
+  return (
+    <motion.div
+      className="hero-product"
+      initial={{ opacity: 1, y: reduced ? 0 : 12 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.45 }}
+    >
+      <div className="demo-stage">
+        <div className="stage-caption">
+          <span>WINDOWS 11 / A QUIETER LOCK SCREEN</span>
+          <span>GLANCE CONCEPT 01</span>
+        </div>
+        <div className="lock-clock" aria-hidden="true">
+          09:41<small>Wednesday, October 21</small>
+        </div>
+        <div className="hero-widgets">
+          <BatteryDemo />
+          <WaterDemo />
+        </div>
+        <div className="stage-bottom">
+          <span className="stage-mark">g.</span>
+          <p>Your data. Your device.</p>
+          <span>Local-first by design</span>
+        </div>
+      </div>
+      <p className="demo-caption">
+        <span className="tiny-dot" /> Interactive demo with sample data{" "}
+        <span>Planned UI. Lock screen interactions are unverified.</span>
+      </p>
+    </motion.div>
+  );
+}
