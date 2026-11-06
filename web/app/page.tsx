@@ -155,7 +155,6 @@ export default function Home() {
           description:
             "Planned ad-free lock screen widgets and companion app for Windows 11. No build released.",
           license: `${github}/blob/main/LICENSE`,
-          codeRepository: github,
           creativeWorkStatus: "Planning",
         }}
       />

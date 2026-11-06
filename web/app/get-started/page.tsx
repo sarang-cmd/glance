@@ -28,7 +28,7 @@ export default function Start() {
             <a href={github} className="button outline">
               Star on GitHub ↗
             </a>
-            <a href={`${github}/subscription`} className="text-link">
+            <a href={github} className="text-link">
               Watch the project ↗
             </a>
           </div>

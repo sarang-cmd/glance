@@ -26,7 +26,10 @@ async function main() {
   function escape(s: string) {
     return s.replaceAll("&", "&amp;").replaceAll("<", "&lt;");
   }
-  for (const [path, page] of Object.entries(pages)) {
+  for (const [path, page] of Object.entries({
+    ...pages,
+    "/404": { title: "Nothing here to glance at." },
+  })) {
     const words = page.title.split(" ");
     const lines: string[] = [];
     let line = "";

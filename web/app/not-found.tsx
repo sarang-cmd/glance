@@ -1,6 +1,8 @@
 import Link from "next/link";
 export const metadata = {
   title: "Page not found",
+  openGraph: { title: "Page not found | Glance", images: ["/og/404.png"] },
+  robots: { index: false, follow: true },
   description:
     "This page does not exist. Return to Glance widgets and the project roadmap.",
 };

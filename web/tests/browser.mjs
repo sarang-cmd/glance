@@ -135,6 +135,10 @@ for (const width of [390, 1440]) {
       await q.focus();
       await page.keyboard.press("Enter");
       assert.equal(await q.getAttribute("aria-expanded"), "true");
+      await page.waitForFunction(() => {
+        const el = document.querySelector('.faq-content[data-state="open"]');
+        return el && el.clientHeight >= el.scrollHeight - 1;
+      });
       await page.screenshot({
         path: `${out}/faq-${width}.png`,
         fullPage: true,
